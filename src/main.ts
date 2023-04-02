@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 
 async function bootstrap() {
-  const port = process.env.PORT || 6000;
+  const port = process.env.PORT || 7070;
   console.log(`[${port}] ENVIRONMENT: ${process.env.NODE_ENV}`);
   process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
