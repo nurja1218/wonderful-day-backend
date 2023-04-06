@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { UserService } from './user.service';
+import { Location, MainWeather } from './interfaces';
 
 @Controller('v1/user')
 export class UserController {
@@ -22,13 +23,28 @@ export class UserController {
   async getLocationsByAddress(
     @Body('address')
     address: string,
-  ): Promise<{
-    latitude: number;
-    longitude: number;
-  }> {
+  ): Promise<Location> {
     const [latitude, longitude] = await this.userService.getLocationsByAddress(
       address,
     );
     return { latitude, longitude };
+  }
+
+  @Post('weather-by-addresses')
+  @HttpCode(HttpStatus.OK)
+  async getWeathersByAddresses(
+    @Body('addresses')
+    addresses: string[],
+  ): Promise<MainWeather[]> {
+    return await this.userService.getWeathersByAddresses(addresses);
+  }
+
+  @Post('weather-by-locations')
+  @HttpCode(HttpStatus.OK)
+  async getWeathersByLocations(
+    @Body('locations')
+    locations: Location[],
+  ): Promise<MainWeather[]> {
+    return await this.userService.getWeathersByLocations(locations);
   }
 }
